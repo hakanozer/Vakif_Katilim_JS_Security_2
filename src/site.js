@@ -17,7 +17,7 @@ $("#formRegister").submit( (evt) => {
             const token = item.token
             if (token) {
                 const stItem = JSON.stringify(item)
-                sessionStorage.setItem('user', stItem)
+                sessionStorage.setItem('user', encrypt(stItem))
                 window.location.href = 'dashboard.html'
             }else {
                 alert("username or password fail")
