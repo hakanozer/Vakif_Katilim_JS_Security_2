@@ -1,3 +1,9 @@
+var sanitizeHTML = function (str) {
+	return str.replace(/[^\w. ]/gi, function (c) {
+		return '&#' + c.charCodeAt(0) + ';';
+	});
+};
+
 $("#formRegister").submit( (evt) => {
     const email = $("#email").val()
     const password = $("#password").val()
@@ -35,4 +41,8 @@ if ( userObj && userObj != 'undefined' && userObj != null ) {
     const firstName = userObj.firstName
     const lastName = userObj.lastName
     $('#userName').html(firstName + " " +lastName )
+    const xss = "<script>alert('Hello XSS')</script>"
+    $('#dataLine').html( sanitizeHTML(xss) )
 }
+
+
