@@ -18,6 +18,7 @@ userRestController.post('/login', (req, res) => {
             if (newPass == password) {
                 sendItem.status = true
                 sendItem.result = item
+                req.session.userID = item.id
             }else {
                 sendItem.result = "Email or Passwor Not Valid"
             }
