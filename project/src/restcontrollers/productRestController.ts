@@ -1,9 +1,12 @@
 import express from 'express'
+import xss from 'xss'
 import { productList, productSave } from '../services/productService'
 export const productRestController = express.Router()
 
 productRestController.post('/product/add', (req, res) => {
-    const title = req.body.title
+    const title = xss(req.body.title)
+    console.log(title);
+    
     const price = req.body.price
     const userID = req.session.userID
     const sendItem = {

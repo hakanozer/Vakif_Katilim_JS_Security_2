@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js'
-const key = "app123"
+const key = process.env.CryptoKey!
 
 export const encrypt = (plainText: string) : string => {
     const ciphertext = CryptoJS.AES.encrypt(plainText, key).toString()

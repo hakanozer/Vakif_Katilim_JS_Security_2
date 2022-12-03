@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
 import bodyParser from 'body-parser'
 import express from 'express'
 import session from 'express-session'
@@ -11,7 +13,7 @@ declare module 'express-session' {
     }
 }
 const sessionConfig = {
-    secret: 'appSession',
+    secret: process.env.SessionSecret!,
     resave: false,
     saveUninitialized: true,
 }
@@ -39,6 +41,13 @@ app.use(
 
 // global filter
 app.use((req, res, next) => {
+    const keys = Object.keys(req.body)
+    keys.forEach(key => {
+        const val = req.body[key]
+        req.body[key] = xss(req.body[key])
+    })
+    
+    
     const url = req.url
     if (url === "/api/v1/login") {
         next()
@@ -59,6 +68,7 @@ app.use((req, res, next) => {
 // RestApi
 import { userRestController } from './restcontrollers/userRestController'
 import { productRestController } from './restcontrollers/productRestController'
+import xss from 'xss'
 app.use('/api/v1', [
     userRestController,
     productRestController
